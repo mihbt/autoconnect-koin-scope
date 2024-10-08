@@ -1,7 +1,10 @@
 package com.example.koinscope.di.modules
 
+import com.example.koinscope.screens.flow2.screen1.Screen1ViewModel
+import com.example.koinscope.screens.flow2.screen2.Screen2ViewModel
 import com.example.koinscope.screens.start.StartViewModel
-import org.koin.androidx.viewmodel.dsl.viewModel
+import org.koin.core.module.dsl.viewModel
+import org.koin.core.module.dsl.viewModelOf
 import org.koin.dsl.module
 
 /**
@@ -9,7 +12,21 @@ import org.koin.dsl.module
  */
 internal val viewModelModule = module {
 
-    viewModel {
-        StartViewModel()
-    }
+//    viewModel {
+//        StartViewModel()
+//    }
+
+    viewModelOf(::StartViewModel)
+
+
+    viewModelOf(::Screen1ViewModel)
+
+//    viewModel {
+//        Screen1ViewModel()
+//    }
+
+    viewModelOf(::Screen2ViewModel)
+//    viewModel {
+//        Screen2ViewModel()
+//    }
 }

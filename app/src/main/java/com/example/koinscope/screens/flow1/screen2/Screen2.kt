@@ -1,4 +1,4 @@
-package com.example.koinscope.screens.start
+package com.example.koinscope.screens.flow1.screen2
 
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Spacer
@@ -13,9 +13,8 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
 
 @Composable
-fun StartScreen(
-    onStartFlow1Click: () -> Unit,
-    onStartFlow2Click: () -> Unit,
+fun Screen2(
+    onFinishFlowClick: () -> Unit
 ) {
     Column(
         modifier = Modifier
@@ -24,28 +23,16 @@ fun StartScreen(
     ) {
         Text(
             modifier = Modifier.align(Alignment.CenterHorizontally),
-            text = "Start flow 1 - tied to a scoped"
+            text = "Flow 1: Screen 2"
         )
-
-        Button(
-            modifier = Modifier.align(Alignment.CenterHorizontally),
-            onClick = onStartFlow1Click
-        ) {
-            Text("Start flow 1")
-        }
 
         Spacer(modifier = Modifier.height(100.dp))
 
-        Text(
-            modifier = Modifier.align(Alignment.CenterHorizontally),
-            text = "Start flow 2 - not tied to a scope"
-        )
-
         Button(
             modifier = Modifier.align(Alignment.CenterHorizontally),
-            onClick = onStartFlow2Click
+            onClick = onFinishFlowClick
         ) {
-            Text("Start flow 2")
+            Text("Finish flow")
         }
     }
 }

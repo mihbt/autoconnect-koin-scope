@@ -1,4 +1,4 @@
-package com.example.koinscope.screens.screen2
+package com.example.koinscope.screens.flow1.screen2
 
 import android.util.Log
 import androidx.lifecycle.ViewModel

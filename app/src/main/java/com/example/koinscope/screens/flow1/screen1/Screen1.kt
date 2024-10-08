@@ -1,9 +1,10 @@
-package com.example.koinscope.screens.screen2
+package com.example.koinscope.screens.flow1.screen1
 
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.height
+import androidx.compose.foundation.layout.statusBarsPadding
 import androidx.compose.material3.Button
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
@@ -12,22 +13,24 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
 
 @Composable
-fun Screen2(
-    onFinishFlowClick: () -> Unit
-) {
-    Column(modifier = Modifier.fillMaxSize()) {
+fun Screen1(onNextClick: () -> Unit) {
+    Column(
+        modifier = Modifier
+            .fillMaxSize()
+            .statusBarsPadding()
+    ) {
         Text(
             modifier = Modifier.align(Alignment.CenterHorizontally),
-            text = "Flow: Screen2"
+            text = "Flow 1: Screen 1"
         )
 
         Spacer(modifier = Modifier.height(100.dp))
 
         Button(
             modifier = Modifier.align(Alignment.CenterHorizontally),
-            onClick = onFinishFlowClick
+            onClick = onNextClick
         ) {
-            Text("Finish flow")
+            Text("Next")
         }
     }
 }

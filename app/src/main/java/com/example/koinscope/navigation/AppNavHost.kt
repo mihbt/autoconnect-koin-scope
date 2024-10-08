@@ -3,7 +3,9 @@ package com.example.koinscope.navigation
 import androidx.compose.runtime.Composable
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.NavHost
-import com.example.koinscope.screens.screen1.navigateToScreen1
+import com.example.koinscope.di.utils.AutoConnectKoinScope
+import com.example.koinscope.screens.flow1.screen1.navigateToFlow1Screen1
+import com.example.koinscope.screens.flow2.screen1.navigateToFlow2Screen1
 import com.example.koinscope.screens.start.routeStart
 import com.example.koinscope.screens.start.routerScreen
 
@@ -14,19 +16,32 @@ import com.example.koinscope.screens.start.routerScreen
 fun AppNavHost(
     navController: NavHostController,
 ) {
-    NavHost(
-        navController = navController,
-        startDestination = routeStart.getRouteWithArguments(),
+    AutoConnectKoinScope(
+        navController = navController
     ) {
-
-        routerScreen(
-            onStartFlowClick = {
-                navController.navigateToScreen1()
-            }
-        )
-
-        flowNavGraph(
+        NavHost(
             navController = navController,
-        )
+            startDestination = routeStart.getRouteWithArguments(),
+        ) {
+
+            routerScreen(
+                onStartFlow1Click = {
+                    navController.navigateToFlow1Screen1()
+                },
+                onStartFlow2Click = {
+                    navController.navigateToFlow2Screen1()
+                }
+            )
+
+            flowNavGraph(
+                navController = navController,
+            )
+
+            flow2NavGraph(
+                navController = navController
+            )
+        }
     }
+
+
 }

@@ -1,6 +1,5 @@
 package com.example.koinscope.di.utils
 
-import android.util.Log
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.CompositionLocalProvider
 import androidx.compose.runtime.DisposableEffect
@@ -11,6 +10,7 @@ import androidx.compose.runtime.setValue
 import androidx.navigation.NavController
 import com.example.koinscope.navigation.utils.NavGraphRoute
 import org.koin.compose.LocalKoinScope
+import org.koin.compose.currentKoinScope
 import org.koin.compose.getKoin
 import org.koin.core.qualifier.named
 
@@ -20,7 +20,7 @@ fun AutoConnectKoinScope(
     content: @Composable () -> Unit
 ) {
     val koinInstance = getKoin()
-    val rootScope = LocalKoinScope.current
+    val rootScope = currentKoinScope()
 
     var scopeToInject by remember {
         val lastKnownNavGraphRoute = lastKnownNavGraphRoute
@@ -40,9 +40,6 @@ fun AutoConnectKoinScope(
         val onDestinationChangedListener = NavController.OnDestinationChangedListener { _, destination, _ ->
             val currentNavGraphRoute = destination.parent?.route
             val previousNavGraphRoute = lastKnownNavGraphRoute
-            Log.d("DebugDestination", "Destination is ${destination.route}")
-            Log.d("DebugDestination", "Wrapping nav graph is ${currentNavGraphRoute ?: "no parent"}")
-            Log.d("DebugDestination", "Last route is $previousNavGraphRoute")
 
             if (previousNavGraphRoute != null && currentNavGraphRoute != previousNavGraphRoute) {
                 val lastScope = koinInstance.getOrCreateScope(
@@ -58,14 +55,12 @@ fun AutoConnectKoinScope(
                     qualifier = named(currentNavGraphRoute)
                 )
 
-                Log.d("DebugScope", "NavGraph not null, create scope $scopeForCurrentNavGraphRoute and link --- $currentNavGraphRoute")
                 scopeToInject = scopeForCurrentNavGraphRoute
+                lastKnownNavGraphRoute = currentNavGraphRoute
             } else {
-                Log.d("DebugScope", "Use the root scope --- $currentNavGraphRoute")
                 scopeToInject = rootScope
+                lastKnownNavGraphRoute = null
             }
-
-            lastKnownNavGraphRoute = destination.parent?.route
         }
 
         navController.addOnDestinationChangedListener(onDestinationChangedListener)

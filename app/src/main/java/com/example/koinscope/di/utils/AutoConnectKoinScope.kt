@@ -6,6 +6,7 @@ import androidx.compose.runtime.DisposableEffect
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
+import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.runtime.setValue
 import androidx.navigation.NavController
 import com.example.koinscope.navigation.utils.NavGraphRoute
@@ -22,13 +23,17 @@ fun AutoConnectKoinScope(
     val koinInstance = getKoin()
     val rootScope = currentKoinScope()
 
+    var lastKnownNavGraphRoute by rememberSaveable {
+        mutableStateOf<NavGraphRoute?>(null)
+    }
+
     var scopeToInject by remember {
-        val lastKnownNavGraphRoute = lastKnownNavGraphRoute
+        val localLastKnownNavGraphRoute = lastKnownNavGraphRoute
         mutableStateOf(
-            value = if (lastKnownNavGraphRoute != null) {
+            value = if (localLastKnownNavGraphRoute != null) {
                 koinInstance.getOrCreateScope(
-                    scopeId = lastKnownNavGraphRoute,
-                    qualifier = named(lastKnownNavGraphRoute)
+                    scopeId = localLastKnownNavGraphRoute,
+                    qualifier = named(localLastKnownNavGraphRoute)
                 )
             } else {
                 rootScope
@@ -75,5 +80,3 @@ fun AutoConnectKoinScope(
         content = content
     )
 }
-
-private var lastKnownNavGraphRoute: NavGraphRoute? = null
